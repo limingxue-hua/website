@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单学生管理系统</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: space-between;
+        }
+        .form-group input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .btn-delete {
+            background-color: #e74c3c;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>简单学生管理系统</h1>
+    
+    <!-- 添加学生表单 -->
+    <form id="studentForm">
+        <div class="form-group">
+            <input type="text" id="stuName" placeholder="学生姓名" required>
+            <input type="number" id="stuAge" placeholder="年龄" required min="1">
+            <input type="text" id="stuMajor" placeholder="专业/班级" required>
+            <button type="submit">添加学生</button>
+        </div>
+    </form>
+
+    <!-- 学生列表展示表格 -->
+    <table>
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>专业/班级</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="studentTableBody">
+            <!-- 数据将通过 JS 动态渲染到这里 -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // 获取DOM元素
+    const studentForm = document.getElementById('studentForm');
+    const studentTableBody = document.getElementById('studentTableBody');
+
+    // 监听表单提交事件
+    studentForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // 阻止页面默认刷新行为
+
+        // 获取输入框的值
+        const name = document.getElementById('stuName').value;
+        const age = document.getElementById('stuAge').value;
+        const major = document.getElementById('stuMajor').value;
+
+        // 创建新的表格行
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${age}</td>
+            <td>${major}</td>
+            <td><button class="btn-delete" onclick="deleteStudent(this)">删除</button></td>
+        `;
+
+        // 将新行添加到表格内容区
+        studentTableBody.appendChild(row);
+
+        // 清空表单输入
+        studentForm.reset();
+    });
+
+    // 删除学生的方法
+    function deleteStudent(button) {
+        // 获取当前按钮所在的 tr 行并将其从 DOM 中移除
+        const row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+</script>
+
+</body>
+</html>
